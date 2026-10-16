@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page settings -->
+  <meta charset="UTF-8" />
+  <!-- This line makes the page scale correctly on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Nora</title>
+
+  <!-- Connect the CSS file (all the styling) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Decorative background: JavaScript fills these with stars and hearts.
+       aria-hidden="true" tells screen readers to ignore them. -->
+  <div id="stars" aria-hidden="true"></div>
+  <div id="hearts" aria-hidden="true"></div>
+
+  <main>
+
+    <!-- SCREEN 1: Welcome + PIN keypad -->
+    <section id="welcome-screen" class="screen" aria-labelledby="welcome-title">
+      <h1 id="welcome-title" tabindex="-1">Hi Nora!, ayo tebak passwordnyaa. I bet you knoww!!</h1>
+
+      <!-- Six dots that fill in as digits are entered.
+           JavaScript updates the aria-label so screen readers hear the progress. -->
+      <div id="pin-dots" class="pin-dots" role="img" aria-label="0 of 6 digits entered">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <!-- The keypad is made of normal buttons, so there is no text input
+           and no phone keyboard pops up.
+           data-digit stores the number each button types.
+           data-action tells the script what the special buttons do. -->
+      <div id="keypad" class="keypad" role="group" aria-label="PIN keypad">
+        <button type="button" class="key" data-digit="1">1</button>
+        <button type="button" class="key" data-digit="2">2</button>
+        <button type="button" class="key" data-digit="3">3</button>
+
+        <button type="button" class="key" data-digit="4">4</button>
+        <button type="button" class="key" data-digit="5">5</button>
+        <button type="button" class="key" data-digit="6">6</button>
+
+        <button type="button" class="key" data-digit="7">7</button>
+        <button type="button" class="key" data-digit="8">8</button>
+        <button type="button" class="key" data-digit="9">9</button>
+
+        <!-- Bottom row: backspace, 0, confirm.
+             aria-label gives these symbol buttons a spoken name. -->
+        <button type="button" class="key key-action" data-action="backspace" aria-label="Delete last digit">
+          <span aria-hidden="true">&#9003;</span>
+        </button>
+        <button type="button" class="key" data-digit="0">0</button>
+        <button type="button" class="key key-confirm" data-action="confirm" aria-label="Confirm PIN">
+          <span aria-hidden="true">&#10003;</span>
+        </button>
+      </div>
+
+      <!-- Error message appears here. aria-live makes screen readers announce it. -->
+      <p id="error-message" role="alert" aria-live="assertive"></p>
+    </section>
+
+    <!-- SCREEN 2: Birthday message (hidden until the PIN is correct) -->
+    <section id="birthday-screen" class="screen" aria-labelledby="birthday-title" hidden>
+      <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+      <h1 id="birthday-title" tabindex="-1">Happy Birthday, Nora!</h1>
+      <button type="button" id="enter-button">Enter</button>
+    </section>
+
+    <!-- SCREEN 3: "A Message for You" (hidden until "Enter" is clicked).
+         The id "main-site" is kept the same so the script keeps working. -->
+    <section id="main-site" class="screen" aria-labelledby="main-title" hidden>
+      <h1 id="main-title" tabindex="-1">A Message for You</h1>
+
+      <!-- Part A: the closed envelope (visible first) -->
+      <div id="envelope-view" class="envelope-view">
+
+        <!-- The whole envelope is ONE button, so it works with mouse, touch and keyboard.
+             The drawing inside is only decoration (aria-hidden), so the button's
+             spoken name comes from aria-label.
+             aria-expanded tells screen readers whether the letter is open. -->
+        <button
+          type="button"
+          id="envelope-button"
+          class="envelope"
+          aria-label="Open the envelope"
+          aria-describedby="envelope-hint"
+          aria-expanded="false"
+        >
+          <span class="env-back"  aria-hidden="true"></span>
+          <span class="env-paper" aria-hidden="true"></span>
+          <span class="env-front" aria-hidden="true"></span>
+          <span class="env-flap"  aria-hidden="true"></span>
+          <span class="env-seal"  aria-hidden="true">&#9829;</span>
+        </button>
+
+        <!-- Small instruction under the envelope (you can change this wording) -->
+        <p id="envelope-hint" class="hint">PENCET YAA KALO MAU LIAT ISINYAA HAHAHA.</p>
+      </div>
+
+      <!-- Part B: the letter (hidden until the envelope is opened).
+           Everything is on ONE long page that you scroll.
+           tabindex="-1" lets JavaScript move focus here when it opens. -->
+      <article id="letter-view" class="letter" aria-label="The letter" tabindex="-1" hidden>
+
+        <!-- Button to close the letter and go back to the envelope -->
+        <button type="button" class="ghost-button close-letter-button">
+          Close letter<span class="visually-hidden"> and return to the envelope</span>
+        </button>
+
+        <!-- The letter text. Each line of your letter is one paragraph. -->
+        <div class="letter-paper">
+          <p class="letter-greeting">Happy 19th birthday, Jesselin anNORA Lisa Siraittt</p>
+
+          <p>Its your 19th birthday alreadyyy! I hope this new chapter brings you so many beautiful things and gives you plenty of reasons to smile.</p>
+
+          <p>I hope you know how much happiness you bring into my lifee haha. Sometimes, I wonder how someone can make such a difference just by being themselves. Tapi kamu punya cara tersendiri untuk bikin hari hariku lebih menyenangkan, bikin aku semangat buat melakukan banyak hal, and inspire me to become a better version of myself.</p>
+
+          <p>Im really glad that, out of all the people I could have met, I got to know you Nora. And honestly, Im just really happy to be someone who gets to know you and share little moments with you. Even the simplest moments can mean so much to me, more than you might realize.</p>
+
+          <p>I hope you never feel like you have to rush through life. You are allowed to take your time, make mistakes, change your mind, and figure things out along the way. You dont have to have everything figured out right now. Just take things one step at a time, and dont forget to enjoy the little things along the way.</p>
+
+          <p>Terimakasii yaaa suda jadi diri kamu sendiri. I hope you keep growing into the person you want to be, without forgetting to enjoy the person you are todayyy. Semoga dirimu selalu dikelilingi orang orang yang tulus, punya banyak kesempatan buat melakukan hal hal yang kamu suka, and find happiness even in the smallest things.</p>
+
+          <p>And whenever life gets a little overwhelming, I hope you remember to be kind to yourself. You deserve the same love, patience, and kindness that you give to others. Please dont be too hard on yourself, okay? You're doing your best, and thats something worth being proud of.</p>
+
+          <p>I dont know what the future holds, but I hope there will be more memories for us to make, more stories to share, and more little moments that we'll look back on someday with a smile. There's still so much life has to offer you, and I hope you get to experience all the beautiful things you've been dreaming of.</p>
+
+          <p>And speaking of dreams, I really hope that one day, you get to go to Toronto haha, just like you've always wanted to. I hope you get to see the places you've been dreaming of, experience new things, and make beautiful memories there.</p>
+
+          <p>And when that day finally comes, save a little place for me there HAHA. Wait for me, because I'll come find you. Maybe one day, we'll get to share stories about our own journeys while being in the same place, and I think that would be really special. Until then, keep chasing your dreams, Nora. I'll be cheering for you from wherever I am :). ❤️</p>
+
+          <p>Wishing you a day full of happiness and a year full of blessings (KAYA KENAL YAA KATA KATANYA WKWKWK). May this new chapter bring you closer to the things you've been hoping for, give you countless reasons to smile, and help you discover even more wonderful things about yourself.</p>
+
+          <p>Happy 19th birthday once again, Nora. Im so happy that you exist, and Im really glad I got to know you. I hope life will be kind to you, that you'll always find reasons to be happy, and that no matter where life takes you, you'll never forget how special you are.</p>
+
+          <p>You deserve so many good things in this world, Nora. I hope 19 treats you well. Have the happiest birthdayy! 🤞🤍</p>
+        </div>
+
+        <!-- A second close button at the bottom, so you don't have to scroll back up -->
+        <button type="button" class="ghost-button close-letter-button">
+          Close letter<span class="visually-hidden"> and return to the envelope</span>
+        </button>
+      </article>
+
+      <!-- Part C: the voice note.
+           It sits after the letter and is always visible on this screen.
+           It has its OWN <audio> element, completely separate from the music player. -->
+      <section id="voice-note" class="voice-note" aria-labelledby="voice-note-title">
+        <h2 id="voice-note-title" class="voice-title">A Voice Note for You</h2>
+
+        <!-- Play/Pause button + progress bar.
+             The play button reuses the look of the music player buttons,
+             but it is controlled only by the voice note code. -->
+        <div class="voice-player">
+          <button type="button" id="voice-play-button" class="player-btn play-btn" aria-label="Play voice note">
+            <svg class="voice-icon-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <svg class="voice-icon-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+            </svg>
+          </button>
+
+          <!-- Current time, seek bar, total duration -->
+          <div class="progress-row">
+            <span id="voice-time-current" class="time" aria-hidden="true">0:00</span>
+            <input
+              type="range"
+              id="voice-progress"
+              class="progress"
+              min="0"
+              max="0"
+              step="1"
+              value="0"
+              aria-label="Voice note position"
+            />
+            <span id="voice-time-duration" class="time" aria-hidden="true">0:00</span>
+          </div>
+        </div>
+
+        <!-- Friendly message shown if the voice note cannot be loaded -->
+        <p id="voice-message" class="player-message" role="status"></p>
+
+        <!-- Button that opens and hides the transcript.
+             aria-expanded tells screen readers whether the transcript is open. -->
+        <div class="voice-actions">
+          <button
+            type="button"
+            id="voice-transcript-toggle"
+            class="ghost-button"
+            aria-expanded="false"
+            aria-controls="voice-transcript"
+          >Read the transcript</button>
+        </div>
+
+        <!-- The transcript (collapsed at first). The text is exactly as provided. -->
+        <div id="voice-transcript" class="voice-transcript" role="region" aria-label="Voice note transcript" hidden>
+          <p>Hai, Nora! Jesslyn, Anora, Lisa, Sirait. Ciee 19. Happy birthday, Nora, yang ke-19!!! </p>
+
+          <p>Jujur, aku sempat mikir, kira-kira apa ya yang bisa aku kasih ke kamu buat ulang tahun kamu kali ini. Terus aku kepikiran, kenapa nggak bikin sesuatu yang belum pernah aku lakuin atau coba sebelumnya aja?</p>
+
+          <p>Honestly, aku masih belajar banyak hal, and making this website is one of them. Tapi, kamu jadi salah satu alasan kenapa aku pengin terus belajar hal baru, mencoba hal-hal yang sebelumnya belum pernah aku lakuin, dan menjadi versi yang lebih baik dari diriku sendiri.</p>
+
+          <p>You have this way of making me feel motivated to do things, even things I've never tried before. Entah kamu sadar atau nggak, kehadiran kamu tuh kadang bikin aku punya semangat lebih buat mencoba hal-hal baru. That's why, as I go through this phase of becoming a better version of myself, I want you to be a part of it too. Bukan karena aku harus, but because having you in my life makes this journey feel a little more meaningful.</p>
+
+          <p>Jadi, website ini tuh bukan cuma birthday gift ajaa, Nora. There's a little bit of my time, effort, and thought in every part of it. Aku bikin ini sambil mikirin kamu. Iya, mikirin kamu dan hal-hal kecil tentang kamu yang mungkin menurut kamu biasa-biasa aja atau sederhana, but somehow, they mean a lot to me.</p>
+
+          <p>And I hope that when you go through everything here, kamu bisa ikut ngerasain betapa berharganya semua memories ini buat aku. Mungkin nggak semuanya sempurna, but I made it with you in my mind :D.</p>
+
+          <p>Semoga di usia yang ke-19 ini, kamu ketemu banyak hal baik, punya banyak cerita baru, and find more reasons to smile. I hope life treats you kindly, and whenever things get hard, I hope you remember how special you are, Nora.</p>
+
+          <p>Happy birthday once again, Nora! I hope this little surprise makes you smile, even just a little. You deserve all the good things coming your way.</p>
+
+          <p>And that's all from me, Nora. ILY!  HAHAHA</p>
+        </div>
+
+        <!-- The voice note's own audio element. No "autoplay" and no "controls":
+             nothing plays until the visitor presses Play. -->
+        <audio id="voice-audio" preload="metadata" src="assets/audio/voice-note.mp3"></audio>
+      </section>
+
+      <!-- Part D (NEW: gallery): "Our 19 Moments".
+           The cards are built by JavaScript from the list called "moments" in script.js,
+           so this list starts empty. -->
+      <section id="moments" class="moments" aria-labelledby="moments-title">
+        <h2 id="moments-title" class="moments-title">Our 19 Moments</h2>
+        <p class="moments-intro">A little scrapbook of moments. Tap a photo to see it bigger.</p>
+        <ol id="moments-list" class="moments-list" role="list"></ol>
+      </section>
+
+            <!-- ===== START: Little Glimpses of Your Beauty (NEW) ===== -->
+      <section id="glimpses" class="scrap scrap--glimpses" aria-labelledby="glimpses-title">
+        <h2 id="glimpses-title" class="scrap-title">Little Glimpses of Your Beauty</h2>
+        <p class="scrap-intro">A few pieces of evidence that an angel has fallen from heaven WKWKWK</p>
+        <ol id="glimpses-list" class="scrap-list" role="list"></ol>
+      </section>
+      <!-- ===== END: Little Glimpses of Your Beauty ===== -->
+
+      <!-- ===== START: Our Little Roblox Adventures (NEW) ===== -->
+      <section id="roblox" class="scrap scrap--roblox" aria-labelledby="roblox-title">
+        <h2 id="roblox-title" class="scrap-title">Our Roblox Adventures</h2>
+        <p class="scrap-intro">SEBENERNYA SIH ADA BANYAK TAPI LUPA DI SS.</p>
+        <ol id="roblox-list" class="scrap-list" role="list"></ol>
+      </section>
+      <!-- ===== END: Our Little Roblox Adventures ===== -->
+
+      <!-- ===== START: 19 Things You Like / Don't Like (NEW) ===== -->
+      <div class="things-pair">
+
+        <section id="things-like" class="things-card things-card--like" aria-labelledby="things-like-title">
+          <h2 id="things-like-title" class="things-title">19 Things You Like</h2>
+          <ol class="things-list" role="list">
+            <li>yupi gummy bear</li>
+            <li>one direction</li>
+            <li>pink</li>
+            <li>ayam serundeng cak wardi</li>
+            <li>dimsum mentai</li>
+            <li>ayam geybok bang jarwo</li>
+            <li>yoghurt greek plain</li>
+            <li>pecel ayam skb (paha atas, sate kulit, jukut)</li>
+            <li>udang</li>
+            <li>pepaya</li>
+            <li>terong balado (buatan mama L... WKWKWK CANDAA)</li>
+            <li>jamur barareya (sapi panggang,asin,pedes dikit)</li>
+            <li>seblak</li>
+            <li>guribee</li>
+            <li>matcha</li>
+            <li>vanilla</li>
+            <li>jus alpukat</li>
+            <li>takoyaki</li>
+            <li>faiq</li>
+          </ol>
+        </section>
+
+        <section id="things-dislike" class="things-card things-card--dislike" aria-labelledby="things-dislike-title">
+          <h2 id="things-dislike-title" class="things-title">19 Things You Don't Like</h2>
+          <ol class="things-list" role="list">
+            <li>Saddam Broklyn Putra Ksatria WKWKWK</li>
+            <li>ANYKIND OF SERANGGAAA</li>
+            <li>pisang</li>
+            <li>bubur kacang ijo</li>
+            <li>ayam sambel dadakan gate 1 (sambel kemangi)</li>
+            <li>bakso</li>
+            <li>kucing :(</li>
+            <li>tiba tiba wifi no connection</li>
+            <li>Cyntia Theresia Samosir</li>
+            <li>Grace Monica Simatupang</li>
+            <li>kalo lagi sakit</li>
+            <li>kondisi sebelum mens</li>
+            <li>kalo ada  yang catcalling kamu (aku jg gasuka bgt)</li>
+            <li>kopi</li>
+            <li>didiemin</li>
+            <li>coklat</li>
+            <li>makan ikan</li>
+            <li>belum baca chat yang dihapus</li>
+            <li>rambutnya lepek</li>
+          </ol>
+        </section>
+
+      </div>
+      <!-- ===== END: 19 Things You Like / Don't Like ===== -->
+       
+            <!-- ===== START: Somehow, It Reminds Me of You (NEW) ===== -->
+      <section id="reminds" class="scrap scrap--reminds" aria-labelledby="reminds-title">
+        <h2 id="reminds-title" class="scrap-title">Somehow, It Reminds Me of You</h2>
+        <p class="scrap-intro">Funny how the most random things can somehow lead my thoughts back to you WKWKWK</p>
+        <ol id="reminds-list" class="scrap-list" role="list"></ol>
+      </section>
+      <!-- ===== END: Somehow, It Reminds Me of You ===== -->
+
+       <!-- ===== START: Our Little Archive (NEW) ===== -->
+      <section id="archive" class="archive" aria-labelledby="archive-title">
+        <h2 id="archive-title" class="archive-title">19 conversations that still make me smile</h2>
+        <p class="archive-subtitle">Beberapa pembicaraan kita yang aku suka.</p>
+        <p class="archive-hint">Tap a screenshot to read it bigger.</p>
+        <ol id="archive-list" class="archive-list" role="list"></ol>
+      </section>
+      <!-- ===== END: Our Little Archive ===== -->
+
+      <!-- ===== START: A Little Crossword About Us (NEW) ===== -->
+      <section id="crossword" class="crossword" aria-labelledby="crossword-title">
+        <h2 id="crossword-title" class="crossword-title">A Little Crossword About Us</h2>
+        <p class="crossword-intro">Tap a square or a clue, then type your answer. Capital or small letters, both are fine. Answers that are dates are written with letters, no spaces.</p>
+
+        <div class="crossword-layout">
+
+          <div class="cw-board">
+            <!-- Shows the clue you are working on, with buttons to jump between clues -->
+            <div class="cw-active">
+              <button type="button" id="cw-prev" class="ghost-button cw-step" aria-label="Previous clue">&lsaquo;</button>
+              <p id="cw-active-clue" class="cw-active-clue" aria-live="polite"></p>
+              <button type="button" id="cw-next" class="ghost-button cw-step" aria-label="Next clue">&rsaquo;</button>
+            </div>
+
+            <!-- JavaScript builds the squares here (see script.js) -->
+            <div id="cw-grid" class="cw-grid" role="group" aria-label="Crossword grid"></div>
+
+            <div class="cw-controls">
+              <button type="button" id="cw-check">Check answers</button>
+              <button type="button" id="cw-clear-word" class="ghost-button">Clear this word</button>
+              <button type="button" id="cw-reset" class="ghost-button">Start over</button>
+            </div>
+
+            <div class="cw-progress-wrap">
+              <p id="cw-progress" class="cw-progress" role="status">Correct answers: 0 of 8</p>
+              <div class="cw-progress-bar" aria-hidden="true"><span id="cw-progress-fill" class="cw-progress-fill"></span></div>
+            </div>
+            <p id="cw-message" class="cw-message" role="status"></p>
+          </div>
+
+          <div class="cw-clues">
+            <div class="cw-clue-group">
+              <h3 class="cw-clue-heading">Mendatar</h3>
+              <ol id="cw-clues-across" class="cw-clue-list" role="list"></ol>
+            </div>
+            <div class="cw-clue-group">
+              <h3 class="cw-clue-heading">Menurun</h3>
+              <ol id="cw-clues-down" class="cw-clue-list" role="list"></ol>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Final message: stays hidden until all 8 answers are correct -->
+        <div id="cw-finish" class="cw-finish" tabindex="-1" hidden>
+          <p class="cw-finish-title">YEYYY BENER SEMUAAA!!.</p>
+          <p class="cw-finish-text">walaupun kamu lupa lupa inget sih... TAPI GAPAPAAA </p>
+          <p class="cw-finish-sub">Thank you for trying, sweethearttt. It's the effort that counts, and I appreciate yours so muchhh ♡.</p>
+        </div>
+      </section>
+      <!-- ===== END: A Little Crossword About Us ===== -->
+
+             <!-- ===== START: The Nora Slander Department (NEW) ===== -->
+      <section id="slander" class="slander" aria-labelledby="slander-title">
+        <span class="slander-case" aria-hidden="true">CASE NO. 019</span>
+        <h2 id="slander-title" class="slander-title">The Nora Slander Department</h2>
+        <p class="slander-subtitle">A collection of completely reliable allegations. No fact-checking allowed.</p>
+        <ol id="slander-list" class="slander-list" role="list"></ol>
+      </section>
+      <!-- ===== END: The Nora Slander Department ===== -->
+
+            <!-- ===== START: Closing letter (NEW) ===== -->
+      <section id="closing" class="closing" aria-labelledby="closing-title">
+        <div class="closing-paper">
+          <h2 id="closing-title" class="closing-title">And that's a wrap, my jessy♡</h2>
+
+          <p>Thank you for staying until the very end of this little corner of the universe I made just for you. I hope you smiled at least a little, because I probably smiled a little too much while making all of this.</p>
+
+          <p>I'm sorry if some things don't work perfectly, if some parts look a little silly, or if this whole website is basically just me being ridiculously in love with you. (IM SERIOUSSS WKWK.)</p>
+
+          <p>I know this little website isn't perfect. Some things might be messy, some words might not be enough, and some feelings are just too big to fit into a few pages on a screen.</p>
+
+          <p>But I hope, somewhere between all the pictures, silly little details, and words I've put together, you can feel how much love went into every little piece of this.</p>
+
+          <p>Maybe this isn't the prettiest thing in the world, but then again, I'm just a boy trying to make something beautiful for his favorite girl. Can't really blame me for trying, can you?</p>
+
+          <p>So, thank you for being here, for being you, and for giving me so many little things to smile about without even realizing it.</p>
+
+          <p class="closing-quote">If the stars could keep every beautiful thing they've ever seen, I think they'd still run out of room for you.</p>
+
+          <p class="closing-birthday">Happy 19th birthday, Nora.</p>
+
+          <p>Here's to more little moments, more silly conversations, and more reasons to fall for you, over and over again.</p>
+
+          <p class="closing-with"><em>With all my heart, and probably a little too much of it,</em></p>
+
+          <p class="closing-signature">faiq </p>
+        </div>
+      </section>
+      <!-- ===== END: Closing letter ===== -->
+
+    </section>
+
+  </main>
+  
+  <!-- PHOTO VIEWER (NEW: gallery)
+       The big version of a photo. It is hidden until a photo is tapped.
+       It sits outside <main> and below the music player, so the player stays usable. -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button type="button" id="lightbox-close" class="lightbox-close" aria-label="Close photo viewer">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    <figure class="lightbox-figure">
+      <img id="lightbox-image" class="lightbox-image" alt="" />
+      <figcaption class="lightbox-caption">
+        <p id="lightbox-meta" class="lightbox-meta"></p>
+        <p id="lightbox-text" class="lightbox-text" hidden></p>
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- MUSIC PLAYER
+       It lives OUTSIDE <main>, so changing screens never rebuilds it
+       and the music keeps playing without interruption.
+       It stays hidden on the PIN screen and appears after the PIN is correct. -->
+  <div id="music-player" class="music-player" hidden>
+
+    <!-- Small round button with a music icon: opens and collapses the panel.
+         aria-expanded tells screen readers whether the panel is open. -->
+    <button
+      type="button"
+      id="player-toggle"
+      class="player-toggle"
+      aria-label="Music player"
+      aria-expanded="false"
+      aria-controls="player-panel"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" />
+      </svg>
+    </button>
+
+    <!-- The panel (collapsed at first). Hiding it does NOT stop the music,
+         because the <audio> element is outside this panel. -->
+    <div id="player-panel" class="player-panel" role="group" aria-label="Music controls" hidden>
+
+      <!-- Current song. aria-live lets screen readers hear when the song changes. -->
+      <div class="now-playing" aria-live="polite" aria-atomic="true">
+        <p id="track-title" class="track-title">Biru</p>
+        <p id="track-artist" class="track-artist">Gabriella Fernaldi</p>
+      </div>
+
+      <!-- Progress bar: drag it (or use the arrow keys) to jump to another position -->
+      <div class="progress-row">
+        <span id="time-current" class="time" aria-hidden="true">0:00</span>
+        <input
+          type="range"
+          id="progress"
+          class="progress"
+          min="0"
+          max="0"
+          step="1"
+          value="0"
+          aria-label="Song position"
+        />
+        <span id="time-duration" class="time" aria-hidden="true">0:00</span>
+      </div>
+
+      <!-- Previous / Play-Pause / Next.
+           The icons are small inline drawings (no image files needed). -->
+      <div class="player-controls">
+        <button type="button" id="prev-button" class="player-btn" aria-label="Previous song">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6 6h2v12H6zM9.5 12L18 18V6z" />
+          </svg>
+        </button>
+
+        <button type="button" id="play-button" class="player-btn play-btn" aria-label="Play">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+          </svg>
+        </button>
+
+        <button type="button" id="next-button" class="player-btn" aria-label="Next song">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Volume (NEW): the slider changes the volume of the MUSIC only.
+           The voice note has its own audio element and is not affected.
+           data-level ("mute", "low" or "high") tells the CSS which speaker icon to show;
+           JavaScript keeps it up to date. -->
+      <div id="volume-row" class="volume-row" data-level="low">
+        <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <!-- the speaker -->
+          <path d="M3 9v6h4l5 5V4L7 9H3z" />
+          <!-- small sound wave (low and high volume) -->
+          <path class="vol-wave-low" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+          <!-- big sound wave (high volume only) -->
+          <path class="vol-wave-high" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+          <!-- little cross (muted) -->
+          <path class="vol-mute-x" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
+        </svg>
+
+        <input
+          type="range"
+          id="volume-slider"
+          class="progress"
+          min="0"
+          max="100"
+          step="1"
+          value="25"
+          aria-label="Music volume"
+        />
+        <span id="volume-value" class="volume-value" aria-hidden="true">25%</span>
+      </div>
+
+      <!-- The playlist. JavaScript fills this list once, when the page loads. -->
+      <ol id="playlist" class="playlist" aria-label="Playlist"></ol>
+
+      <!-- Friendly message shown if a song cannot be loaded -->
+      <p id="player-message" class="player-message" role="status"></p>
+    </div>
+
+    <!-- The real audio element. No "autoplay" and no "controls":
+         nothing plays until the visitor presses Play. JavaScript sets the file path. -->
+    <audio id="audio-element" preload="metadata"></audio>
+  </div>
+
+  <!-- Connect the JavaScript file. "defer" waits until the HTML is loaded. -->
+  <script src="script.js" defer></script>
+</body>
+</html>
